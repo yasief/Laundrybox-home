@@ -19,12 +19,12 @@ html {scroll-behavior: smooth;}
 body{--wp-dark-mode-scale: 1}
 html[xmlns] .clearfix {display: block;}
 * html .clearfix {height: 1%;}
-body{margin:0;padding:0;width:100%;font-size:1rem;font-weight:400;line-height:1.5;color:#212529;text-align:left;background-color:#fff;font-family:"DM Sans", sans-serif;
+body{margin:0;padding:0;width:100%;overflow-x:hidden;font-size:1rem;font-weight:400;line-height:1.5;color:#212529;text-align:left;background-color:#fff;font-family:"DM Sans", sans-serif;
     font-optical-sizing: auto;
     font-weight: weight;
     font-style: normal;
 }
-.container{max-width:100%;width:100%;margin:0 auto;padding: 0 100px;}
+.container{max-width:100%;width:100%;margin:0 auto;padding: 0 40px;box-sizing:border-box;}
 .container-fluid{width:100%;padding:0 20px}
 .row{display:-ms-flexbox;display:-webkit-box;display:-webkit-flex;display:flex;-ms-flex-wrap:wrap;-webkit-flex-wrap:wrap;flex-wrap:wrap}
 .row-e{-ms-flex-preferred-size:0;-webkit-flex-basis:0;flex-basis:0;-webkit-box-flex:1;-ms-flex-positive:1;-webkit-flex-grow:1;flex-grow:1;max-width:100%}
@@ -46,7 +46,7 @@ body{margin:0;padding:0;width:100%;font-size:1rem;font-weight:400;line-height:1.
 .order-3{-webkit-box-ordinal-group:4;-webkit-order:3;-ms-flex-order:3;order:3}
 .order-4{-webkit-box-ordinal-group:5;-webkit-order:4;-ms-flex-order:4;order:4}
 .d-flex,.flex, .is-layout-flex{display:-webkit-box;display:-ms-flexbox;display:-webkit-flex;display:flex}
-.is-layout-flex{margin-right: -15px; margin-left: -15px;}
+.is-layout-flex{margin-right: -15px; margin-left: -15px;overflow: hidden;}
 .is-layout-flex > div.wp-block-column{padding-right: 15px;padding-left: 15px;flex-basis: 0; flex-grow: 1;}
 .d-inline-flex{display:-webkit-inline-box;display:-ms-inline-flexbox;display:-webkit-inline-flex;display:inline-flex}
 .d-inline{display:-moz-inline-stack;display:inline-block;zoom:1;}

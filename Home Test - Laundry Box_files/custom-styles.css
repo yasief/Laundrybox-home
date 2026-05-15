@@ -9,6 +9,7 @@
    ========================================================================= */
 html {
     scroll-behavior: smooth;
+    box-sizing: border-box;
 }
 html, body {
     overflow-x: hidden;
@@ -60,6 +61,19 @@ img, picture, video {
     flex-wrap: wrap;
     gap: 10px;
     align-items: center;
+}
+
+/* Full-width hero section */
+.lazyblock-hero-section-with-slider-13kma2 {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.HeroNewSection {
+    width: 100%;
+    overflow: hidden;
+    margin: 0;
 }
 
 /* "Check Pricing" CTA inside hero topsocialIcons — jumps to #pricing swiper */
