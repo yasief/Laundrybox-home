@@ -34,28 +34,55 @@ img, picture, video {
    2) HERO SLIDER
    ========================================================================= */
 .HeroSlider {
-    background-color: #000;
+    background-color: transparent;
+    width: 100%;
+    position: relative;
 }
 .HeroSlider .slick-list {
     overflow: hidden;
-    background-color: #000;
+    background-color: transparent;
+    width: 100%;
 }
 .HeroSlider .slick-track {
-    transform: translate3d(0, 0, 0);
-    will-change: transform;
+    will-change: opacity;
+    margin: 0;
+    height: 100vh;
+}
+.HeroSlider .slick-list {
+    height: 100vh;
 }
 .HeroSlider .slick-slide {
     backface-visibility: hidden;
-    -webkit-transform: translate3d(0, 0, 0);
-    will-change: opacity, transform;
+    -webkit-backface-visibility: hidden;
+    will-change: opacity;
 }
+.HeroSlider .sliderIn .fPic,
+.HeroSlider .sliderIn picture {
+    width: 100%;
+}
+
+/* Modern typography hierarchy on hero copy */
 .heroInner h1 {
     word-wrap: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.18;
+    margin-bottom: 14px;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
 }
 .heroInner p {
-    line-height: 1.5;
+    line-height: 1.75;
+    font-size: 17px;
+    color: rgba(255, 255, 255, 0.92);
+    max-width: 56ch;
+    margin-bottom: 6px;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+}
+.heroInner .topsocialIcons {
+    margin-top: 22px !important;
+    gap: 12px !important;
 }
 .topsocialIcons {
     flex-wrap: wrap;
@@ -70,10 +97,92 @@ img, picture, video {
     padding: 0;
 }
 
+.lazyblock-home-hero-section-Z1iV80 {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 .HeroNewSection {
     width: 100%;
     overflow: hidden;
     margin: 0;
+    background-color: transparent !important;
+}
+.HeroNewSection > div,
+.HeroNewSection .HeroSlider {
+    width: 100%;
+}
+
+/* -----------------------------------------------------------------------
+   Modern glassmorphism hero card — replaces the old translucent box
+   defined in style.css (.heroInner @ ~2312). Higher specificity wins.
+   ----------------------------------------------------------------------- */
+.HeroSlider .heroInner,
+.HeroNewSection .heroInner {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 60px;
+    margin-left: 0;
+    margin-right: auto;
+    padding: 40px 44px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.06) 100%);
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    backdrop-filter: blur(18px) saturate(140%);
+}
+.heroSliderContent .row {
+    justify-content: flex-start !important;
+    align-items: flex-end !important;
+}
+
+/* -----------------------------------------------------------------------
+   Elegant slider navigation arrows — override style.css ~2324 defaults.
+   ----------------------------------------------------------------------- */
+.HeroSlider [type="button"],
+.HeroSlider button {
+    width: 52px !important;
+    height: 52px !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    color: #ffffff;
+    border-radius: 50%;
+    -webkit-backdrop-filter: blur(14px) saturate(130%);
+    backdrop-filter: blur(14px) saturate(130%);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+    transition: background 0.3s ease, border-color 0.3s ease,
+                box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.HeroSlider [type="button"]:hover,
+.HeroSlider button:hover,
+.HeroSlider [type="button"]:focus-visible,
+.HeroSlider button:focus-visible {
+    background: rgba(4, 175, 242, 0.85) !important;
+    border-color: rgba(255, 255, 255, 0.7) !important;
+    box-shadow: 0 12px 30px rgba(4, 175, 242, 0.45);
+    transform: translateY(-50%) scale(1.08) !important;
+    outline: none;
+}
+.HeroSlider .custom-prev,
+.HeroSlider .slick-prev {
+    left: 28px !important;
+}
+.HeroSlider .custom-next,
+.HeroSlider .slick-next {
+    right: 28px !important;
+}
+.HeroSlider .custom-prev svg,
+.HeroSlider .custom-next svg,
+.HeroSlider .slick-prev svg,
+.HeroSlider .slick-next svg {
+    width: 22px;
+    height: 22px;
+    stroke: #ffffff;
+    fill: none;
 }
 
 /* "Check Pricing" CTA inside hero topsocialIcons — jumps to #pricing swiper */
@@ -318,7 +427,6 @@ img, picture, video {
    6) MOBILE LANDSCAPE / SMALL TABLET — max-width: 820px
    ========================================================================= */
 @media only screen and (max-width: 820px) {
-    /* Match style.css's mobile baseline so hero doesn't jump at this breakpoint. */
     .HeroNewSection {
         top: -124px;
         margin-bottom: -68px;
@@ -337,27 +445,84 @@ img, picture, video {
         padding-bottom: 40px;
     }
     .heroInner {
-        max-width: 94%;
-        flex: 0 0 94%;
+        max-width: 92%;
+        flex: 0 0 92%;
         margin: 0 auto 30px;
-        padding: 22px 18px;
+        padding: 24px 20px 20px;
     }
     .heroInner h1 {
-        font-size: 28px !important;
-        line-height: 1.25;
+        font-size: 26px !important;
+        line-height: 1.2;
+        margin-bottom: 10px !important;
     }
     .heroInner p {
         font-size: 14px;
-        line-height: 1.5;
+        line-height: 1.55;
+        margin-bottom: 0;
     }
+    /* Hero CTA buttons — CSS GRID layout */
     .topsocialIcons {
-        justify-content: flex-start;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        grid-template-rows: auto auto !important;
+        gap: 10px !important;
+        margin-top: 18px !important;
+        width: 100% !important;
     }
-    .topsocialIcons img,
-    .topsocialIcons .mr-15.ml-15 {
-        width: 130px !important;
-        height: auto !important;
+    .topsocialIcons > a:not(.checkPricingBtn):nth-of-type(1) {
+        grid-column: 1;
+        grid-row: 1;
+    }
+    .topsocialIcons > a:not(.checkPricingBtn):nth-of-type(2) {
+        grid-column: 2;
+        grid-row: 1;
+    }
+    .topsocialIcons > .checkPricingBtn {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+    .topsocialIcons > a {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        height: 78px !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+        border-radius: 14px !important;
         margin: 0 !important;
+        padding: 0 !important;
+    }
+    .topsocialIcons > a:not(.checkPricingBtn) {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+    }
+    .topsocialIcons > a:not(.checkPricingBtn) img {
+        width: auto !important;
+        max-width: none !important;
+        min-width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+        object-position: center !important;
+        margin: 0 !important;
+        display: block !important;
+        border-radius: 0 !important;
+        transform: scale(1.4) !important;
+        transform-origin: center !important;
+    }
+    .checkPricingBtn {
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        gap: 8px !important;
+        white-space: nowrap !important;
+        padding: 0 16px !important;
+    }
+    .checkPricingBtn svg {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
     }
 }
 
@@ -365,7 +530,7 @@ img, picture, video {
    7) MOBILE — max-width: 767px
    ========================================================================= */
 @media only screen and (max-width: 767px) {
-    /* Inline app CTA */
+    /* Inline app CTA bar */
     .appCta {
         padding: 18px 16px;
         gap: 12px;
@@ -379,46 +544,86 @@ img, picture, video {
         padding: 11px 22px;
     }
 
-    /* Hero */
+    /* Hero card */
     .heroInner {
-        padding: 18px 14px;
         max-width: 92%;
         flex: 0 0 92%;
+        padding: 22px 18px 18px;
+        margin-bottom: 24px;
     }
     .heroInner h1 {
-        font-size: 24px !important;
-        line-height: 1.25;
-        margin-bottom: 10px !important;
+        font-size: 22px !important;
+        line-height: 1.22;
+        margin-bottom: 8px !important;
     }
     .heroInner p {
         font-size: 13px;
+        line-height: 1.5;
         margin-bottom: 0;
     }
+    /* Hero CTA buttons — CSS GRID layout */
     .topsocialIcons {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        grid-template-rows: auto auto !important;
+        gap: 10px !important;
         margin-top: 16px !important;
-        gap: 8px;
-        flex-wrap: nowrap;
-        justify-content: flex-start;
+        width: 100% !important;
     }
-    .topsocialIcons a {
-        flex: 0 0 auto;
+    .topsocialIcons > a:not(.checkPricingBtn):nth-of-type(1) {
+        grid-column: 1;
+        grid-row: 1;
     }
-    .topsocialIcons img,
-    .topsocialIcons .mr-15.ml-15 {
-        width: 95px !important;
-        height: auto !important;
+    .topsocialIcons > a:not(.checkPricingBtn):nth-of-type(2) {
+        grid-column: 2;
+        grid-row: 1;
+    }
+    .topsocialIcons > .checkPricingBtn {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+    .topsocialIcons > a {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        height: 45px !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+        border-radius: 14px !important;
         margin: 0 !important;
+        padding: 0 !important;
+    }
+    .topsocialIcons > a:not(.checkPricingBtn) {
+        /* background: #000 !important; */
+        /* border: 1.5px solid rgba(255, 255, 255, 0.22) !important; */
+        /* padding: 3px 3px !important; */
+    }
+    .topsocialIcons > a:not(.checkPricingBtn) img {
+        width: auto !important;
+        max-width: none !important;
+        min-width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+        object-position: center !important;
+        margin: 0 !important;
+        display: block !important;
+        border-radius: 0 !important;
+        transform: scale(1.4) !important;
+        transform-origin: center !important;
     }
     .checkPricingBtn {
-        padding: 9px 14px;
-        height: 38px;
-        font-size: 12px;
-        gap: 6px;
-        white-space: nowrap;
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        gap: 6px !important;
+        white-space: nowrap !important;
+        padding: 0 14px !important;
     }
     .checkPricingBtn svg {
-        width: 14px;
-        height: 14px;
+        width: 13px;
+        height: 13px;
+        flex-shrink: 0;
     }
     .HeroSlider .slick-next,
     .HeroSlider .slick-prev {
@@ -705,18 +910,110 @@ header .elementor-menu-toggle {
     justify-content: flex-start;
 }
 
-/* Home Service grid — square images + consistent card heights */
-.ServiceSection .card,
-.ServiceSection .cardIn {
-    height: 100%;
+/* ── Service Section card redesign ── */
+.ServiceSection .card {
+    position: relative;
     overflow: hidden;
-}
-.ServiceSection .card img,
-.ServiceSection .cardIn img {
-    width: 100%;
-    height: 280px;
-    object-fit: cover;
+    border-radius: 18px;
     display: block;
+    height: 420px;
+    transform: scale(1);
+    transition: transform 0.3s cubic-bezier(0.34,1.2,0.64,1), box-shadow 0.3s ease;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.22);
+}
+.ServiceSection .card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.32);
+}
+/* Full-bleed photo */
+.ServiceSection .card img.deskImg,
+.ServiceSection .card .deskImg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+.ServiceSection .card img.mobImg,
+.ServiceSection .card .mobImg {
+    display: none !important;
+}
+/* Gradient overlay */
+.ServiceSection .overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.08) 0%,
+        rgba(0,0,0,0.18) 40%,
+        rgba(0,0,0,0.72) 75%,
+        rgba(0,0,0,0.88) 100%
+    );
+    z-index: 2;
+    border-radius: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+/* Text pinned to bottom */
+.ServiceSection .cardIn {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    z-index: 3;
+    padding: 20px 20px 22px;
+    background: none;
+    overflow: visible;
+}
+.ServiceSection .cardIn h3 {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 6px;
+    color: #fff;
+    letter-spacing: -0.01em;
+}
+.ServiceSection .cardIn p {
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.82);
+    margin: 0;
+}
+/* Arrow icon */
+.ServiceSection .cardArrow {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 4;
+    width: 34px;
+    height: 34px;
+    fill: #fff;
+    background: rgba(255,255,255,0.18);
+    border-radius: 50%;
+    padding: 6px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.3);
+    transform: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+.ServiceSection .card:hover .cardArrow {
+    background: rgba(4,175,242,0.85);
+    transform: scale(1.1);
+}
+/* Row gutter */
+.ServiceSection .row.justify-content-between {
+    gap: 0;
+    margin-left: -8px;
+    margin-right: -8px;
+}
+.ServiceSection .row-five {
+    padding: 0 8px;
+    margin-bottom: 0;
 }
 .ServiceSection .lastBtn {
     display: inline-flex;
@@ -738,10 +1035,7 @@ header .elementor-menu-toggle {
     display: block;
 }
 
-/* How It Works — minimal polish only.
-   The original style.css already handles layout (4-up desktop, 2-up tablet
-   via .deskAndMobShow / .hideMob). Don't add gap/flex-wrap on .workRow or
-   the 25% row-four cards overflow into 2 rows. Keep titles tidy only. */
+/* ── How It Works — desktop polish ── */
 .HowItWOrksSection .workContent h3 {
     line-height: 1.2;
 }
@@ -889,16 +1183,99 @@ footer .elementor-widget-heading h5 {
         max-width: 120px;
     }
 
-    /* Service section images shrink */
-    .ServiceSection .card img,
-    .ServiceSection .cardIn img {
-        height: 220px;
+    /* Service cards: reduce height on tablet */
+    .ServiceSection .card {
+        height: 340px;
     }
 
-    /* How It Works 1 column on phones */
+    /* How It Works — mobile complete fix */
+
+    /* Kill the overlap trick: blackbgDiv + negative-margin workContent */
+    .HowItWOrksSection .blackbgDiv {
+        display: none !important;
+    }
+    .HowItWOrksSection .workContent {
+        margin-top: 0 !important;
+        padding: 0 !important;
+        background: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Show all 4 steps in one column — hide the duplicate hideMob set */
+    .HowItWOrksSection .deskAndMobShow .workRow .row-four:nth-child(3),
+    .HowItWOrksSection .deskAndMobShow .workRow .row-four:nth-child(4) {
+        display: flex !important;
+    }
+    .HowItWOrksSection .hideMob {
+        display: none !important;
+    }
+
+    /* Each step = full-width stacked card */
+    .HowItWOrksSection .workRow {
+        flex-direction: column !important;
+        gap: 16px !important;
+    }
     .HowItWOrksSection .workRow .row-four {
         flex: 0 0 100% !important;
         max-width: 100% !important;
+        padding: 0 !important;
+    }
+
+    /* Card shell */
+    .HowItWOrksSection .workRow .row-four {
+        display: flex !important;
+        flex-direction: column !important;
+        background: #0f0f0f;
+        border-radius: 18px;
+        overflow: hidden;
+    }
+
+    /* Text block */
+    .HowItWOrksSection .blackbgDivIn {
+        padding: 20px 20px 16px !important;
+        background: #111 !important;
+        border-radius: 0 !important;
+    }
+    .HowItWOrksSection .blackbgDivIn span.d-block {
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        color: #04AFF2 !important;
+        letter-spacing: 0.06em;
+        margin-bottom: 6px;
+    }
+    .HowItWOrksSection .workContent h3 {
+        font-size: 20px !important;
+        font-weight: 700 !important;
+        color: #fff !important;
+        margin: 0 !important;
+        line-height: 1.2;
+    }
+    .HowItWOrksSection .blackbgDivIn svg path {
+        fill: #04AFF2 !important;
+    }
+    .HowItWOrksSection .workContent p {
+        font-size: 13px !important;
+        color: rgba(255,255,255,0.72) !important;
+        line-height: 1.55 !important;
+        margin-top: 8px !important;
+        min-height: unset !important;
+    }
+
+    /* Phone image — show the phone, not the top banner */
+    .HowItWOrksSection .imageItems {
+        width: 100% !important;
+        height: 260px !important;
+        overflow: hidden !important;
+        flex-shrink: 0;
+    }
+    .HowItWOrksSection .imageItems picture,
+    .HowItWOrksSection .imageItems img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center 42% !important;
+        border-radius: 0 !important;
+        display: block !important;
     }
 
     /* Accordion (FAQ): override base CSS that absolute-positions +/− to top-right,
@@ -983,10 +1360,9 @@ footer .elementor-widget-heading h5 {
         max-width: 100px;
     }
 
-    /* Service cards: smaller images, smaller text */
-    .ServiceSection .card img,
-    .ServiceSection .cardIn img {
-        height: 200px;
+    /* Service cards: tighter height */
+    .ServiceSection .card {
+        height: 300px;
     }
 
     /* Accordion items */
@@ -1040,6 +1416,42 @@ footer .elementor-widget-heading h5 {
         font-size: 22px;
     }
 
+    /* Hero card — tightest breakpoint */
+    .heroInner {
+        max-width: 94%;
+        flex: 0 0 94%;
+        padding: 18px 14px 16px;
+        margin-bottom: 20px;
+    }
+    .heroInner h1 {
+        font-size: 20px !important;
+        line-height: 1.2;
+        margin-bottom: 6px !important;
+    }
+    .heroInner p {
+        font-size: 12px;
+        line-height: 1.5;
+    }
+    /* Keep all 3 buttons in one line even on 320px screens */
+    .topsocialIcons {
+        gap: 6px;
+        margin-top: 14px !important;
+    }
+    .topsocialIcons a:not(.checkPricingBtn) img {
+        height: 38px !important;
+        max-width: 100px !important;
+    }
+    .checkPricingBtn {
+        height: 38px;
+        font-size: 11px;
+        padding: 0 8px;
+        gap: 4px;
+    }
+    .checkPricingBtn svg {
+        width: 11px;
+        height: 11px;
+    }
+
     .appSection .appStats h3 {
         font-size: 18px;
     }
@@ -1051,9 +1463,8 @@ footer .elementor-widget-heading h5 {
     .AwradWinningSection .imgHolder picture {
         max-width: 88px;
     }
-    .ServiceSection .card img,
-    .ServiceSection .cardIn img {
-        height: 180px;
+    .ServiceSection .card {
+        height: 280px;
     }
 
     /* Footer column gaps tighter */
@@ -1122,11 +1533,30 @@ footer .elementor-widget-heading h5 {
     margin: 50px auto 0;
 }
 
-/* Grid: 3 columns desktop, 2 tablet, 1 mobile */
-.customReviewsGrid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+/* ── Reviews auto-scrolling marquee ── */
+@keyframes reviewsScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+.customReviewsMarquee {
+    overflow: hidden;
+    width: 100%;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+}
+.customReviewsTrack {
+    display: flex;
+    flex-wrap: nowrap;
     gap: 24px;
+    width: max-content;
+    animation: reviewsScroll 30s linear infinite;
+}
+.customReviewsTrack:hover {
+    animation-play-state: paused;
+}
+.customReviewsTrack .customReviewCard {
+    flex: 0 0 340px;
+    width: 340px;
 }
 
 /* Card */
@@ -1246,7 +1676,7 @@ footer .elementor-widget-heading h5 {
 .customReviews {
     text-align: center;
 }
-.customReviewsGrid {
+.customReviewsTrack {
     text-align: left;
 }
 .customReviewsRatingBadge {
@@ -1285,21 +1715,29 @@ footer .elementor-widget-heading h5 {
         max-width: 100%;
         margin-top: 40px;
     }
-    .customReviewsGrid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 20px;
-    }
 }
 
-/* Mobile (767px and below): 1 column, tighter */
+
+/* Mobile (767px and below): horizontal scroll-snap carousel */
 @media only screen and (max-width: 767px) {
     .commonTestimonialSection.com60 {
         padding-top: 54px;
         padding-bottom: 54px;
     }
-    .customReviewsGrid {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 16px;
+
+    /* Allow carousel to bleed edge-to-edge */
+    .customReviews {
+        overflow: hidden;
+        margin-left: -16px;
+        margin-right: -16px;
+        padding-left: 16px;
+        padding-right: 0;
+    }
+
+    /* Marquee card size on mobile */
+    .customReviewsTrack .customReviewCard {
+        flex: 0 0 280px;
+        width: 280px;
     }
     .customReviewCard {
         padding: 22px 20px;
@@ -1312,6 +1750,11 @@ footer .elementor-widget-heading h5 {
     }
     .customReviewText {
         font-size: 14px;
+    }
+
+    /* Dot indicators */
+    .customReviews {
+        position: relative;
     }
     .customReviewsFooter {
         padding: 12px 18px;
@@ -1353,12 +1796,7 @@ picture {
     object-fit: cover;
 }
 
-/* Service section card images keep aspect */
-.ServiceSection .card img,
-.ServiceSection .cardIn img {
-    width: 100%;
-    display: block;
-}
+/* Service section card images — handled by the redesign block above */
 
 /* Why LaundryBox image rows: image never larger than its column */
 .whyLaundryBox .row-half picture,
@@ -1515,10 +1953,28 @@ picture {
     .ServiceSection .row-five {
         flex: 0 0 100% !important;
         max-width: 100% !important;
+        padding: 0 !important;
+        margin-bottom: 16px !important;
+    }
+    .ServiceSection .card {
+        height: 260px !important;
+    }
+    .ServiceSection .cardIn {
+        padding: 16px 16px 18px !important;
     }
     .ServiceSection .cardIn h3,
     .ServiceSection .card h3 {
-        font-size: 17px;
+        font-size: 16px !important;
+        margin-bottom: 4px !important;
+    }
+    .ServiceSection .cardIn p {
+        font-size: 13px !important;
+    }
+    .ServiceSection .cardArrow {
+        width: 30px !important;
+        height: 30px !important;
+        top: 12px !important;
+        right: 12px !important;
     }
 
     /* Service section "See More" button */

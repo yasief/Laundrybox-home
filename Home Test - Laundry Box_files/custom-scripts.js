@@ -81,10 +81,11 @@
     }
 
     // -- 5. Rehydrate the slick sliders -----------------------------------------
-    // Verbatim options copied from the page bundle (c29450bd…js) so slick
-    // builds the same arrow markup the original CSS targets.
-    var HERO_NEXT_SVG = '<button type="button" class="btn slick-prev custom-prev" aria-label="Next Slide"><svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#fff"><path d="m320.62-93.85-56.77-56.77L593.23-480 263.85-809.38l56.77-56.77L706.77-480 320.62-93.85Z"/></svg></button>';
-    var HERO_PREV_SVG = '<button type="button" class="btn slick-next custom-next" aria-label="Previous Slide"><svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#fff"><path d="M640.38-93.85 254.23-480l386.15-386.15 56.77 56.77L367.77-480l329.38 329.38-56.77 56.77Z"/></svg></button>';
+    // Arrow markup: prev = left-pointing chevron, next = right-pointing chevron.
+    // Slick wires these to its prevArrow / nextArrow options below, so the
+    // visual direction now matches the navigation direction.
+    var HERO_PREV_SVG = '<button type="button" class="btn slick-prev custom-prev" aria-label="Previous Slide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg></button>';
+    var HERO_NEXT_SVG = '<button type="button" class="btn slick-next custom-next" aria-label="Next Slide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg></button>';
 
     var HERO_SLICK_OPTS = {
         dots: false,
@@ -147,6 +148,8 @@
             slide.removeAttribute('data-slick-index');
             slide.removeAttribute('aria-hidden');
             slide.removeAttribute('tabindex');
+            slide.removeAttribute('role');
+            slide.removeAttribute('aria-describedby');
             container.appendChild(slide);
         });
 
