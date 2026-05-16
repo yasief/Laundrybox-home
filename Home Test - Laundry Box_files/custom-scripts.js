@@ -91,9 +91,9 @@
         dots: false,
         infinite: true,
         arrows: true,
-        speed: 1000,
-        fade: true,
-        cssEase: 'linear',
+        speed: 700,
+        fade: false,
+        cssEase: 'cubic-bezier(0.45, 0, 0.15, 1)',
         slidesToShow: 1,
         pauseOnHover: false,
         slidesToScroll: 1,
@@ -174,6 +174,23 @@
         var container = document.querySelector(selector);
         if (!container) return;
         if (!window.jQuery || !window.jQuery.fn || !window.jQuery.fn.slick) return;
+
+        // Idempotent: bootSliders() runs on DOMContentLoaded AND again
+        // on window.load. If we already initialized THIS slider with
+        // real Slick, do nothing — re-running unwrap on a live Slick
+        // instance shreds its DOM and blanks the slider.
+        if (container.getAttribute('data-rehydrated') === '1') return;
+
+        var $existing = window.jQuery(container);
+        // If a real Slick instance is attached, tear it down cleanly
+        // via Slick's own API before we strip/rebuild the markup.
+        try {
+            if ($existing.hasClass('slick-initialized') &&
+                $existing.slick && $existing.slick('getSlick')) {
+                $existing.slick('unslick');
+            }
+        } catch (e) { /* not a live instance — fall through to manual unwrap */ }
+
         if (!unwrapSlickContainer(container)) return;
 
         if (window.console) console.log(LOG_TAG, 'rehydrating ' + label + ' slick…');
@@ -190,14 +207,123 @@
                 try { $c.slick('slickPlay'); } catch (e3) { /* older slick — autoplay already on */ }
             }
             slickInstances.push($c);
+            container.setAttribute('data-rehydrated', '1');
             if (window.console) console.log(LOG_TAG, label + ' slick re-inited, autoplay started');
         } catch (e) {
             if (window.console) console.error(LOG_TAG, label + ' slick re-init failed:', e && e.stack || e);
         }
     }
 
+    /**
+     * Hero stationary card.
+     * The card (heading + paragraph + the two app-store buttons) sits
+     * still while the background images slide. We build ONE clean card
+     * as an overlay on the slider, read each slide's heading/paragraph
+     * into a list, and swap just that text when the slide changes.
+     * The per-slide markup is hidden via CSS so only the images move.
+     */
+    function setupHeroFixedCard() {
+        var section = document.querySelector('.HeroNewSection');
+        var slider = document.querySelector('.HeroSlider');
+        if (!section || !slider || !window.jQuery) return;
+
+        var $slider = window.jQuery(slider);
+
+        // Per-slide text, in slick-index order (skip slick clones).
+        var texts = [];
+        Array.prototype.forEach.call(
+            slider.querySelectorAll('.slick-slide:not(.slick-cloned) .heroInner'),
+            function (inner) {
+                var h1 = inner.querySelector('h1');
+                var p = inner.querySelector('p');
+                texts.push({
+                    h1: h1 ? h1.innerHTML : '',
+                    p: p ? p.innerHTML : ''
+                });
+            }
+        );
+        if (!texts.length) return; // slick not ready yet — caller retries
+
+        // Remove any previously-built card so a re-init can't duplicate
+        // it, and so the card never gets absorbed by a Slick re-wrap.
+        var old = section.querySelector('.heroCard');
+        if (old && old.parentNode) old.parentNode.removeChild(old);
+
+        // Build a clean card: heading, paragraph, two app buttons only
+        // (no "Check Pricing"). Built from scratch — no legacy markup.
+        // Appended to the SECTION (a Slider sibling) so Slick — which
+        // only manages .HeroSlider's children — can never wrap it.
+        var card = document.createElement('div');
+        card.className = 'heroCard';
+        card.innerHTML =
+            '<div class="heroCardBox">' +
+                '<h1 class="heroCardTitle"></h1>' +
+                '<p class="heroCardText"></p>' +
+                '<div class="heroCardBtns">' +
+                    '<a class="heroCardBtn" href="https://apps.apple.com/ae/app/laundrybox-dubai/id1274441896" target="_blank" rel="noopener" aria-label="Download on the App Store">' +
+                        '<img src="./Home Test - Laundry Box_files/google-play.webp" alt="Download on the App Store" width="180" height="54" decoding="async">' +
+                    '</a>' +
+                    '<a class="heroCardBtn" href="https://play.google.com/store/apps/details?id=net.mybox.android" target="_blank" rel="noopener" aria-label="Get it on Google Play">' +
+                        '<img src="./Home Test - Laundry Box_files/app-store.webp" alt="Get it on Google Play" width="180" height="54" decoding="async">' +
+                    '</a>' +
+                '</div>' +
+            '</div>';
+        section.appendChild(card);
+
+        var elTitle = card.querySelector('.heroCardTitle');
+        var elText = card.querySelector('.heroCardText');
+        var elBox = card.querySelector('.heroCardBox');
+
+        function applyText(i) {
+            var t = texts[((i % texts.length) + texts.length) % texts.length];
+            if (!t) return;
+            if (elTitle) elTitle.innerHTML = t.h1;
+            if (elText) elText.innerHTML = t.p;
+        }
+
+        var startIndex = 0;
+        try { startIndex = $slider.slick('slickCurrentSlide') || 0; } catch (e) {}
+        applyText(startIndex);
+
+        var swapTimer = null;
+        $slider.off('beforeChange.heroCard').on('beforeChange.heroCard', function (e, slick, currentSlide, nextSlide) {
+            if (!elBox) return;
+            if (swapTimer) clearTimeout(swapTimer);
+            // 1. Fade the text out.
+            elBox.classList.add('isSwapping');
+            swapTimer = setTimeout(function () {
+                // 2. While fully hidden, swap the text.
+                applyText(nextSlide);
+                // 3. Next frame, fade the new text back in (removing
+                //    the class in a separate frame lets the browser
+                //    paint the swapped text at opacity 0 first, so it
+                //    fades in instead of flashing).
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(function () {
+                        elBox.classList.remove('isSwapping');
+                    });
+                });
+            }, 220);
+        });
+
+        slider.classList.add('heroFixedCardActive');
+    }
+
     function rehydrateHeroSlider() {
         rehydrateSlick('.HeroSlider', HERO_SLICK_OPTS, 'hero');
+        // Build the card once Slick has produced .slick-slide nodes.
+        // Synchronous attempt first; retry briefly if not ready yet.
+        setupHeroFixedCard();
+        var tries = 0;
+        var poll = setInterval(function () {
+            tries += 1;
+            var section = document.querySelector('.HeroNewSection');
+            if ((section && section.querySelector('.heroCard')) || tries > 20) {
+                clearInterval(poll);
+                return;
+            }
+            setupHeroFixedCard();
+        }, 150);
     }
 
     function rehydrateLaundryOfferSlider() {
