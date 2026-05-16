@@ -1707,15 +1707,19 @@ footer .elementor-widget-heading h5 {
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #04AFF2 0%, #0289c4 100%);
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
+    overflow: hidden;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    background: #e8eef3;
     box-shadow: 0 6px 14px rgba(4, 175, 242, 0.28);
+}
+.customReviewAvatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 50%;
 }
 .customReviewMeta {
     display: flex;
