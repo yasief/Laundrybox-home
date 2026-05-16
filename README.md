@@ -1,2 +1,0 @@
-# Laundrybox-home
-Home Page
