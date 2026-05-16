@@ -601,16 +601,15 @@
 			backdrop-filter: blur(6px);
 			padding: 36px 38px;
 		}
-		/* Title, text and buttons fade together as one unit so nothing
-		   flickers independently during the per-slide text swap. */
+		/* Only the heading + paragraph fade on slide change. The app
+		   buttons are identical on every slide, so they stay stable
+		   (no fade/flicker) — they never change between slides. */
 		.HeroNewSection .heroCardTitle,
-		.HeroNewSection .heroCardText,
-		.HeroNewSection .heroCardBtns {
+		.HeroNewSection .heroCardText {
 			transition: opacity 200ms ease;
 		}
 		.HeroNewSection .heroCardBox.isSwapping .heroCardTitle,
-		.HeroNewSection .heroCardBox.isSwapping .heroCardText,
-		.HeroNewSection .heroCardBox.isSwapping .heroCardBtns {
+		.HeroNewSection .heroCardBox.isSwapping .heroCardText {
 			opacity: 0;
 		}
 		.HeroNewSection .heroCardTitle {
@@ -1649,8 +1648,7 @@
 												<div class="row align-items-end h-100">
 													<div class="row-sixty heroInner">
 														<h1 class="mb-20">Smart, Sustainable Laundry Care</h1>
-														<p>Eco-friendly cleaning powered by smart technology. Premium
-															care that keeps clothes fresh longer.</p>
+														<p>Eco-friendly, smart cleaning technology that keeps clothes fresh longer.</p>
 														<div class="d-flex mt-30 topsocialIcons">
 															<a href="https://apps.apple.com/ae/app/laundrybox-dubai/id1274441896"
 																target="_blank" aria-label="App Store" tabindex="-1">
@@ -2074,8 +2072,7 @@
 												<div class="row align-items-end h-100">
 													<div class="row-sixty heroInner">
 														<h1 class="mb-20">Luxury Bag Cleaning &amp; Repair</h1>
-														<p>Safe stain removal, leather conditioning &amp; expert
-															restoration. Bring your bags back to life.</p>
+														<p>Safe stain removal, leather conditioning, and expert restoration to bring bags back to life.</p>
 														<div class="d-flex mt-30 topsocialIcons">
 															<a href="https://apps.apple.com/ae/app/laundrybox-dubai/id1274441896"
 																target="_blank" aria-label="App Store" tabindex="0">
